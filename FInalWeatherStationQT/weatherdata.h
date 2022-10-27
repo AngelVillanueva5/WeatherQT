@@ -7,7 +7,7 @@ class WeatherData
 {
 public:
     WeatherData();
-    QString getAverage();
+    double *getAverage();
     int getHistoric();
     int getData();
     void connectDB();

@@ -2,17 +2,21 @@
 #include <QSqlQuery>
 #include <string>
 #include <QLineSeries>
+#include <iostream>
 
 WeatherData::WeatherData()
 {
 
 }
 
-QString WeatherData::getAverage() {
-    QSqlQuery query("SELECT avg(temperature) FROM weather WHERE dateAndTime BETWEEN '2022-10-23 01:00:00' AND '2022-10-23 23:00:00'");
+double* WeatherData::getAverage() {
+    static double avg[3];
+    QSqlQuery query("SELECT ROUND(avg(temperature), 1) AS avgTemp, ROUND(avg(humidity), 1) AS avgHum, ROUND(avg(airpressure), 1) AS  avgPres  FROM weather WHERE dateAndTime > '2022-10-23 00:00:00' AND dateAndTime < '2022-10-23 23:59:59'");
     query.exec();
     query.first();
-    QString avg = query.value(0).toString();
+    for(int i = 0; i < 3; i++) {
+        avg[i] = query.value(i).toDouble();
+    }
     return avg;
 }
 
