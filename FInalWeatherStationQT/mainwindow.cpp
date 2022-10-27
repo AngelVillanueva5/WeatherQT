@@ -14,3 +14,12 @@ MainWindow::~MainWindow()
     delete ui;
     WeatherData weatherData;
 }
+
+
+
+void MainWindow::on_btnStart_clicked()
+{
+    WeatherData weatherData;
+    weatherData.connectDB();
+    ui->lblAvgTemp->setText(weatherData.getAverage());
+}
