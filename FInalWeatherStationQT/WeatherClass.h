@@ -1,0 +1,5 @@
+#ifndef WEATHERCLASS_H
+#define WEATHERCLASS_H
+
+#endif // WEATHERCLASS_H
+
