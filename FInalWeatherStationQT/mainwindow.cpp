@@ -47,4 +47,6 @@ void MainWindow::on_btnStart_clicked()
 
     weatherData.setGraph();
     weatherData.getHistoric();
+
+
 }

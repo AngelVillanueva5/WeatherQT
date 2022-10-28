@@ -7,6 +7,7 @@
 #include <QChartView>
 #include <QMainWindow>
 #include <QValueAxis>
+#include <QTime>
 
 WeatherData::WeatherData()
 {
@@ -47,7 +48,7 @@ int* WeatherData::getRecentData() {
 
 int* WeatherData::getHistoric() {
     static int historicTemp[7];
-    QSqlQuery query("SELECT temperature  FROM weather WHERE dateAndTime > '2022-10-31 12:00:00' AND dateAndTime < '2022-10-31 20:00:01'");
+    QSqlQuery query("SELECT temperature  FROM weather WHERE dateAndTime >= NOW() ORDER BY dateAndTime ASC LIMIT 8");
     query.exec();
     query.first();
     for(int i = 0; i <= 7; i++) {
@@ -63,7 +64,7 @@ void WeatherData::setGraph() {
     QLineSeries *series = new QLineSeries();
 
     for(int i = 0; i <= 8; i++) {
-        series->append(i, ptr[i]);
+        series->append(QTime::currentTime().hour() + 1 + i, ptr[i]);
         qDebug() << historicTemp[i];
     }
 
@@ -75,10 +76,9 @@ void WeatherData::setGraph() {
 
     QChartView *chartView = new QChartView(chart);
     chartView->setRenderHint(QPainter::Antialiasing);
-
     QValueAxis *axisX = new QValueAxis;
     QValueAxis *axisY = new QValueAxis;
-    axisX->setRange(0, 8);
+    axisX->setRange(QTime::currentTime().hour() + 1, QTime::currentTime().hour() + 9);
     axisX->setTickCount(9);
     axisX->setLabelFormat("%.2f");
     chartView->chart()->setAxisX(axisX, series);
