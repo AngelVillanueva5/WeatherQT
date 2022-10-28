@@ -9,7 +9,7 @@ public:
     WeatherData();
     double *getAverage();
     int *getHistoric();
-    int getData();
+    int *getRecentData();
     void connectDB();
     void setGraph();
 private:

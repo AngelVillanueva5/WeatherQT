@@ -14,6 +14,15 @@ WeatherData::WeatherData()
 
 }
 
+void WeatherData::connectDB() {
+    QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
+    db.setHostName("databases.aii.avans.nl");
+    db.setDatabaseName("sdvillan_db2");
+    db.setUserName("sdvillan");
+    db.setPassword("Ab12345");
+    bool ok = db.open();
+}
+
 double* WeatherData::getAverage() {
     static double avg[3];
     QSqlQuery query("SELECT ROUND(avg(temperature), 1) AS avgTemp, ROUND(avg(humidity), 1) AS avgHum, ROUND(avg(airpressure), 1) AS  avgPres  FROM weather WHERE dateAndTime > '2022-10-31 00:00:00' AND dateAndTime < '2022-10-31 23:59:59'");
@@ -25,14 +34,17 @@ double* WeatherData::getAverage() {
     return avg;
 }
 
-void WeatherData::connectDB() {
-    QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName("databases.aii.avans.nl");
-    db.setDatabaseName("sdvillan_db2");
-    db.setUserName("sdvillan");
-    db.setPassword("Ab12345");
-    bool ok = db.open();
+int* WeatherData::getRecentData() {
+    static int curData[3];
+    QSqlQuery query("SELECT temperature, humidity, airpressure FROM weather WHERE dateAndTime <= NOW() ORDER BY dateAndTime DESC LIMIT 1;");
+    query.exec();
+    query.first();
+    for(int i = 0; i < 3; i++) {
+        curData[i] = query.value(i).toInt();
+    }
+    return curData;
 }
+
 
 int* WeatherData::getHistoric() {
     static int historicTemp[7];
@@ -43,7 +55,6 @@ int* WeatherData::getHistoric() {
         historicTemp[i] = query.value(0).toDouble();
         query.next();
     }
-
     return historicTemp;
 }
 
