@@ -6,6 +6,7 @@
 #include <QChart>
 #include <QChartView>
 #include <QMainWindow>
+#include <QValueAxis>
 
 WeatherData::WeatherData()
 {
@@ -51,25 +52,33 @@ void WeatherData::setGraph() {
     QLineSeries *series = new QLineSeries();
 
     for(int i = 0; i <= 8; i++) {
-         series->append(i, ptr[i]);
-             qDebug() << historicTemp[i];
+        series->append(i, ptr[i]);
+        qDebug() << historicTemp[i];
     }
+
     QChart *chart = new QChart();
     chart->legend()->hide();
     chart->addSeries(series);
-    chart->setTitle("Simple line chart example");
-
+    chart->setTitle("Temperature chart");
     chart->createDefaultAxes();
-    chart->axes(Qt::Horizontal).back()->setRange(0, 8);
-    chart->axes(Qt::Vertical).back()->setRange(-20, 40);
-    chart->axes(Qt::Horizontal).back()->setTitleText("axis x [mm]");
-    chart->axes(Qt::Vertical).back()->setTitleText("axis y [mm]");
 
     QChartView *chartView = new QChartView(chart);
     chartView->setRenderHint(QPainter::Antialiasing);
 
+    QValueAxis *axisX = new QValueAxis;
+    QValueAxis *axisY = new QValueAxis;
+    axisX->setRange(0, 8);
+    axisX->setTickCount(9);
+    axisX->setLabelFormat("%.2f");
+    chartView->chart()->setAxisX(axisX, series);
+
+    axisY->setRange(-20, 40);
+    axisY->setTickCount(13);
+    axisY->setLabelFormat("%.2f");
+    chartView->chart()->setAxisY(axisY, series);
+
     QMainWindow *window = new QMainWindow;
     window->setCentralWidget(chartView);
-    window->resize(400, 300);
+    window->resize(600, 500);
     window->show();
 }
