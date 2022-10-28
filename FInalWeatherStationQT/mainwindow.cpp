@@ -29,12 +29,19 @@ MainWindow::~MainWindow()
 void MainWindow::on_btnStart_clicked()
 {
     WeatherData weatherData;
+    double *ptrAvg;
+    int *ptrCur;
     weatherData.connectDB();
-    double *ptr;
-    ptr = weatherData.getAverage();
-    ui->lblAvgTemp->setText(QString::number(ptr[0]));
-    ui->lblAvgHum->setText(QString::number(ptr[1]));
-    ui->lblAvgPres->setText(QString::number(ptr[2]));
+    ptrAvg = weatherData.getAverage();
+    ui->lblAvgTemp->setText(QString::number(ptrAvg[0]));
+    ui->lblAvgHum->setText(QString::number(ptrAvg[1]));
+    ui->lblAvgPres->setText(QString::number(ptrAvg[2]));
+
+    ptrCur = weatherData.getRecentData();
+    ui->lblTemp->setText(QString::number(ptrCur[0]));
+    ui->lblHum->setText(QString::number(ptrCur[1]));
+    ui->lblAir->setText(QString::number(ptrCur[2]));
+
 
 
 
