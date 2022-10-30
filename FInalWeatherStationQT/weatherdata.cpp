@@ -14,20 +14,7 @@ WeatherData::WeatherData()
 
 }
 
-// connects to database
-void WeatherData::connectDB() {
-    QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName("databases.aii.avans.nl");
-    db.setDatabaseName("sdvillan_db2");
-    db.setUserName("sdvillan");
-    db.setPassword("Ab12345");
-    bool ok = db.open();
-    if(ok == false) {
-        qDebug() << "Database connection failed";
-    } else {
-        qDebug() << "Database connection successfull";
-    }
-}
+
 
 double* WeatherData::getAverage() {
     static double avg[3];

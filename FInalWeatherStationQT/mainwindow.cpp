@@ -31,7 +31,6 @@ void MainWindow::on_btnStart_clicked()
     WeatherData weatherData;
     double *ptrAvg;
     int *ptrCur;
-    weatherData.connectDB();
     ptrAvg = weatherData.getAverage();
     ui->lblAvgTemp->setText(QString::number(ptrAvg[0]));
     ui->lblAvgHum->setText(QString::number(ptrAvg[1]));

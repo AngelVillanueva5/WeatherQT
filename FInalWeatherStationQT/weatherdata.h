@@ -10,7 +10,7 @@ public:
     double *getAverage();
     int *getHistoric();
     int *getRecentData();
-    void connectDB();
+
     void setGraph();
 };
 #endif // WEATHERDATA_H
