@@ -1,21 +1,15 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "login.h"
 #include "weatherdata.h"
-#include <QString>
-#include "weatherdata.h"
-#include <QSqlQuery>
-#include <string>
-#include <QLineSeries>
-#include <iostream>
-#include <QChart>
-#include <QChartView>
-#include <QMainWindow>
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
 }
 
 MainWindow::~MainWindow()
@@ -24,10 +18,8 @@ MainWindow::~MainWindow()
     WeatherData weatherData;
 }
 
+void MainWindow::windowSetup(bool devToggle) {
 
-
-void MainWindow::on_btnStart_clicked()
-{
     WeatherData weatherData;
     double *ptrAvg;
     int *ptrCur;
@@ -43,6 +35,10 @@ void MainWindow::on_btnStart_clicked()
 
     weatherData.setGraph();
     weatherData.getHistoric();
+    if(devToggle == true) {
+        ui->frameDev->show();
 
-
+    } else {
+        ui->frameDev->hide();
+    }
 }

@@ -14,6 +14,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void windowSetup(bool devToggle);
 
 private slots:
     void on_btnStart_clicked();

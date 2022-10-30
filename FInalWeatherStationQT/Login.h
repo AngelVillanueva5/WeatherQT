@@ -16,7 +16,8 @@ public:
     ~login();
     bool loginDatabase();
     bool connectDB();
-      bool loginState;
+    bool loginState;
+    bool developerToggle;
 
 private slots:
     void on_pushButton_clicked();
@@ -28,7 +29,7 @@ private:
     QString username;
     QString password;
 
-    bool developerToggle;
+
 
 
 };

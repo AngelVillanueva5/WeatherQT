@@ -13,6 +13,7 @@ login::login(QWidget *parent) :
     username = "";
     password = "";
     loginState = false;
+    developerToggle = false;
 }
 
 login::~login()
@@ -22,8 +23,6 @@ login::~login()
 
 // connects to database
 bool login::connectDB() {
-    login login;
-    MainWindow mainWindow;
     MainWindow *window = new MainWindow;
     qDebug() << hostName;
     qDebug() << databaseName;
@@ -37,8 +36,11 @@ bool login::connectDB() {
     bool ok = db.open();
     if(ok == false) {
         qDebug() << "Database connection failed";
+        return false;
     } else {
         loginState = true;
+        developerToggle = ui->radiobtnDev->isChecked();
+        window->windowSetup(developerToggle);
         window->show();
         this->close();
         return true;

@@ -10,6 +10,7 @@ public:
     double *getAverage();
     int *getHistoric();
     int *getRecentData();
+    void windowSetup();
 
     void setGraph();
 };
