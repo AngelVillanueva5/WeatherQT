@@ -12,7 +12,5 @@ public:
     int *getRecentData();
     void connectDB();
     void setGraph();
-private:
-    int historicTemp[7];
 };
 #endif // WEATHERDATA_H

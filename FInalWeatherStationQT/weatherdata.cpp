@@ -14,6 +14,7 @@ WeatherData::WeatherData()
 
 }
 
+// connects to database
 void WeatherData::connectDB() {
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
     db.setHostName("databases.aii.avans.nl");
@@ -21,6 +22,11 @@ void WeatherData::connectDB() {
     db.setUserName("sdvillan");
     db.setPassword("Ab12345");
     bool ok = db.open();
+    if(ok == false) {
+        qDebug() << "Database connection failed";
+    } else {
+        qDebug() << "Database connection successfull";
+    }
 }
 
 double* WeatherData::getAverage() {
@@ -34,6 +40,7 @@ double* WeatherData::getAverage() {
     return avg;
 }
 
+// retrieves most recent weather data from database
 int* WeatherData::getRecentData() {
     static int curData[3];
     QSqlQuery query("SELECT temperature, humidity, airpressure FROM weather WHERE dateAndTime <= NOW() ORDER BY dateAndTime DESC LIMIT 1;");
@@ -45,7 +52,7 @@ int* WeatherData::getRecentData() {
     return curData;
 }
 
-
+//retrieves data from the database to insert into graph
 int* WeatherData::getHistoric() {
     static int historicTemp[7];
     QSqlQuery query("SELECT temperature  FROM weather WHERE dateAndTime >= NOW() ORDER BY dateAndTime ASC LIMIT 8");
@@ -58,6 +65,7 @@ int* WeatherData::getHistoric() {
     return historicTemp;
 }
 
+// sets up datagraph and inserts data
 void WeatherData::setGraph() {
     int *ptr;
     ptr = this->getHistoric();
@@ -65,7 +73,6 @@ void WeatherData::setGraph() {
 
     for(int i = 0; i <= 8; i++) {
         series->append(QTime::currentTime().hour() + 1 + i, ptr[i]);
-        qDebug() << historicTemp[i];
     }
 
     QChart *chart = new QChart();

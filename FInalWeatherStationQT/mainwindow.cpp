@@ -42,9 +42,6 @@ void MainWindow::on_btnStart_clicked()
     ui->lblHum->setText(QString::number(ptrCur[1]));
     ui->lblAir->setText(QString::number(ptrCur[2]));
 
-
-
-
     weatherData.setGraph();
     weatherData.getHistoric();
 

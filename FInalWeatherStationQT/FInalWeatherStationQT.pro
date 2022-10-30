@@ -21,6 +21,7 @@ HEADERS += \
     weatherdata.h
 
 FORMS += \
+    Login.ui \
     mainwindow.ui
 
 # Default rules for deployment.
