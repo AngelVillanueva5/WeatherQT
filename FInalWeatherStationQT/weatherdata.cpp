@@ -18,7 +18,7 @@ WeatherData::WeatherData()
 
 double* WeatherData::getAverage() {
     static double avg[3];
-    QSqlQuery query("SELECT ROUND(avg(temperature), 1) AS avgTemp, ROUND(avg(humidity), 1) AS avgHum, ROUND(avg(airpressure), 1) AS  avgPres  FROM weather WHERE dateAndTime > '2022-10-31 00:00:00' AND dateAndTime < '2022-10-31 23:59:59'");
+    QSqlQuery query("SELECT ROUND(avg(temperature), 1) AS avgTemp, ROUND(avg(humidity), 1) AS avgHum, ROUND(avg(airpressure), 1) AS  avgPres FROM weather WHERE DATE(dateAndTime) = DATE(NOW())");
     query.exec();
     query.first();
     for(int i = 0; i < 3; i++) {

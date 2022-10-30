@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
+    this->setStyleSheet("background-color: ;");
 }
 
 MainWindow::~MainWindow()
@@ -33,8 +33,7 @@ void MainWindow::windowSetup(bool devToggle) {
     ui->lblHum->setText(QString::number(ptrCur[1]));
     ui->lblAir->setText(QString::number(ptrCur[2]));
 
-    weatherData.setGraph();
-    weatherData.getHistoric();
+
     if(devToggle == true) {
         ui->frameDev->show();
 
@@ -42,3 +41,11 @@ void MainWindow::windowSetup(bool devToggle) {
         ui->frameDev->hide();
     }
 }
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    WeatherData weatherData;
+    weatherData.setGraph();
+    weatherData.getHistoric();
+}
+

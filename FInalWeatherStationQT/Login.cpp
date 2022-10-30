@@ -36,6 +36,7 @@ bool login::connectDB() {
     bool ok = db.open();
     if(ok == false) {
         qDebug() << "Database connection failed";
+        ui->lblError->setText("Login/connection failed");
         return false;
     } else {
         loginState = true;
