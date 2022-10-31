@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>558</width>
-    <height>420</height>
+    <width>563</width>
+    <height>398</height>
    </rect>
   </property>
   <property name="font">
@@ -20,47 +20,6 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QFrame" name="frameDev">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>610</x>
-      <y>20</y>
-      <width>161</width>
-      <height>111</height>
-     </rect>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
-    </property>
-    <widget class="QWidget" name="verticalLayoutWidget">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>20</y>
-       <width>308</width>
-       <height>105</height>
-      </rect>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <item>
-       <widget class="QDateTimeEdit" name="dateTimeEdit"/>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pushButton">
-        <property name="text">
-         <string>Update</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </widget>
    <widget class="QWidget" name="gridLayoutWidget_3">
     <property name="geometry">
      <rect>
@@ -148,7 +107,7 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="0" colspan="2">
+     <item row="3" column="0" colspan="2">
       <widget class="QPushButton" name="pushButton_2">
        <property name="text">
         <string>Historic data graph</string>
@@ -214,6 +173,41 @@
         </widget>
        </item>
       </layout>
+     </item>
+     <item row="2" column="0" colspan="2">
+      <widget class="QFrame" name="frameDev">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <widget class="QWidget" name="verticalLayoutWidget">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>561</width>
+          <height>105</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <widget class="QDateTimeEdit" name="dateTimeDev"/>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton">
+           <property name="text">
+            <string>Update</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
      </item>
     </layout>
    </widget>

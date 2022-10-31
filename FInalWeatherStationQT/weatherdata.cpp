@@ -1,6 +1,5 @@
 #include "weatherdata.h"
 #include <QSqlQuery>
-#include <string>
 #include <QLineSeries>
 #include <iostream>
 #include <QChart>
@@ -14,11 +13,12 @@ WeatherData::WeatherData()
 
 }
 
-
-
-double* WeatherData::getAverage() {
+// retrieves average values such as: temperature, humidity and airpressure depending on day
+// Qstring currentDateTime: date time used in sql statements set to current time when starting application and can be changed with dev mode
+double* WeatherData::getAverage(QString currentDateTime) {
     static double avg[3];
-    QSqlQuery query("SELECT ROUND(avg(temperature), 1) AS avgTemp, ROUND(avg(humidity), 1) AS avgHum, ROUND(avg(airpressure), 1) AS  avgPres FROM weather WHERE DATE(dateAndTime) = DATE(NOW())");
+    QSqlQuery query("SELECT ROUND(avg(temperature), 1) AS avgTemp, ROUND(avg(humidity), 1) AS avgHum, ROUND(avg(airpressure), 1) AS  avgPres FROM weather WHERE DATE(dateAndTime) = DATE(?)");
+    query.addBindValue(currentDateTime);
     query.exec();
     query.first();
     for(int i = 0; i < 3; i++) {
@@ -28,21 +28,27 @@ double* WeatherData::getAverage() {
 }
 
 // retrieves most recent weather data from database
-int* WeatherData::getRecentData() {
+// Qstring currentDateTime: date time used in sql statements set to current time when starting application and can be changed with dev mode
+int* WeatherData::getRecentData(QString currentDateTime) {
     static int curData[3];
-    QSqlQuery query("SELECT temperature, humidity, airpressure FROM weather WHERE dateAndTime <= NOW() ORDER BY dateAndTime DESC LIMIT 1;");
+    QSqlQuery query;
+    query.prepare("SELECT temperature, humidity, airpressure FROM weather WHERE dateAndTime <= ? ORDER BY dateAndTime DESC LIMIT 1;");
+    query.addBindValue(currentDateTime);
     query.exec();
     query.first();
     for(int i = 0; i < 3; i++) {
         curData[i] = query.value(i).toInt();
     }
+
     return curData;
 }
 
 //retrieves data from the database to insert into graph
-int* WeatherData::getHistoric() {
+// Qstring currentDateTime: date time used in sql statements set to current time when starting application and can be changed with dev mode
+int* WeatherData::getHistoric(QString currentDateTime) {
     static int historicTemp[7];
-    QSqlQuery query("SELECT temperature  FROM weather WHERE dateAndTime >= NOW() ORDER BY dateAndTime ASC LIMIT 8");
+    QSqlQuery query("SELECT temperature  FROM weather WHERE dateAndTime >= ? ORDER BY dateAndTime ASC LIMIT 8");
+    query.addBindValue(currentDateTime);
     query.exec();
     query.first();
     for(int i = 0; i <= 7; i++) {
@@ -53,9 +59,11 @@ int* WeatherData::getHistoric() {
 }
 
 // sets up datagraph and inserts data
-void WeatherData::setGraph() {
+// Qstring currentDateTime: date time used in sql statements set to current time when starting application and can be changed with dev mode
+void WeatherData::setGraph(QString currentDateTime) {
+    QDateTime tempDT = QDateTime::currentDateTime();
     int *ptr;
-    ptr = this->getHistoric();
+    ptr = this->getHistoric(currentDateTime);
     QLineSeries *series = new QLineSeries();
 
     for(int i = 0; i <= 8; i++) {
@@ -70,6 +78,8 @@ void WeatherData::setGraph() {
 
     QChartView *chartView = new QChartView(chart);
     chartView->setRenderHint(QPainter::Antialiasing);
+
+    // sets up x and y axis of chart
     QValueAxis *axisX = new QValueAxis;
     QValueAxis *axisY = new QValueAxis;
     axisX->setRange(QTime::currentTime().hour() + 1, QTime::currentTime().hour() + 9);
@@ -82,6 +92,7 @@ void WeatherData::setGraph() {
     axisY->setLabelFormat("%.2f");
     chartView->chart()->setAxisY(axisY, series);
 
+    // sets up window and inserts chart
     QMainWindow *window = new QMainWindow;
     window->setCentralWidget(chartView);
     window->resize(600, 500);

@@ -2,6 +2,7 @@
 #include "ui_login.h"
 #include "mainwindow.h"
 #include <QSqlQuery>
+#include <QDateTime>
 
 login::login(QWidget *parent) :
     QWidget(parent),
@@ -23,12 +24,11 @@ login::~login()
 
 // connects to database
 bool login::connectDB() {
+    QDateTime tempDT = QDateTime::currentDateTime();
+    QString currentDateTime = tempDT.toString("yyyy-MM-dd hh:mm:ss");
     MainWindow *window = new MainWindow;
-    qDebug() << hostName;
-    qDebug() << databaseName;
-    qDebug() << username;
-    qDebug() << password;
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
+
     db.setHostName(hostName);
     db.setDatabaseName(databaseName);
     db.setUserName(username);
